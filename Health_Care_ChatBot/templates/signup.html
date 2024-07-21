@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .gradient-border {
+            position: relative;
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, #f3ec78, #af4261) 1;
+            border-radius: 0.375rem; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="w-full max-w-md bg-white gradient-border px-8 pt-6 pb-8 mb-4">
+        <h2 class="text-center text-4xl font-bold mb-6">Sign Up</h2>
+        <form method="POST" action="/signup">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username</label>
+                <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" name="username" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+                <input type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" name="email" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="age">Age</label>
+                <input type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="age" name="age" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Gender</label>
+                <div class="flex items-center">
+                    <input type="radio" class="mr-2 leading-tight" id="male" name="gender" value="Male">
+                    <label for="male" class="text-gray-700 mr-4">Male</label>
+                    <input type="radio" class="mr-2 leading-tight" id="female" name="gender" value="Female">
+                    <label for="female" class="text-gray-700 mr-4">Female</label>
+                    <input type="radio" class="mr-2 leading-tight" id="other" name="gender" value="other">
+                    <label for="other" class="text-gray-700">Other</label>
+                </div>
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="medical_conditions">Medical Conditions</label>
+                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="medical_conditions" name="medical_conditions"></textarea>
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+                <input type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" name="password" required>
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Sign Up</button>
+            </div>
+            <div class="mt-4 text-center">
+                <a href="/login" class="text-blue-500 hover:text-blue-700">Already have an account? Log in</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

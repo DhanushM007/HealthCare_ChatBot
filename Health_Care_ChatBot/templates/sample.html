@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background-image: url('https://source.unsplash.com/1600x900/?health,medicine');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #62a5f3 0%, #a488f1 100%);
+            padding: 1.6rem 3rem;
+        }
+
+        a {
+            color: rgb(16, 15, 15);
+            font-size: 1.5rem;
+        }
+
+        .navbar a:hover {
+            color: #080808;
+        }
+
+        .section-title {
+            border-bottom: 2px solid #62a5f3;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: xx-large; /* Set font size to xx-large */
+        }
+
+        html {
+            scroll-behavior: smooth; /* Enables smooth scrolling */
+        }
+
+        .section-content {
+            background-color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 20px 14px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-item,
+        .profile-item,
+        .emergency-item,
+        .about-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+        }
+
+        .service-item:hover,
+        .profile-item:hover,
+        .emergency-item:hover,
+        .about-item:hover {
+            transform: scale(1.05);
+            box-shadow: 8px 4px 25px rgb(236, 135, 135);
+            background: linear-gradient(45deg, #cfdeef, #c4b3f4);
+        }
+
+        .contact-item {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+
+        .no-copy {
+            user-select: none; /* Standard syntax */
+            -webkit-user-select: none; /* Chrome, Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            color: gray;
+            margin-top: auto;
+            font-size: x-large;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <a href="#" class="text-white text-2xl font-bold">Health Chatbot</a>
+            </div>
+            <div class="hidden md:flex space-x-4">
+                <a href="#main" class="text-white hover:underline ">Home</a>
+                <a href="predict" class="text-white hover:underline ">Disease Predictor</a>
+                <a href="#about" class="text-white hover:underline ">About</a>
+                <a href="#services" class="text-white hover:underline ">Services</a>
+                <a href="#contact" class="text-white hover:underline">Contact</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-white focus:outline-none">
+                    &#9776;
+                </button>
+            </div>
+        </div>
+        <div id="menu" class="hidden md:hidden mt-2">
+            <a href="#main" class="block text-white py-2">Home</a>
+            <a href="#predict" class="block text-white py-2">Disease Predictor</a>
+            <a href="#about" class="block text-white py-2">About</a>
+            <a href="#services" class="block text-white py-2">Services</a>
+            <a href="#contact" class="block text-white py-2">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div id="main" class="hero-section flex items-center justify-center text-black bg-opacity-50">
+        <div class="text-center p-8 bg-white bg-opacity-75 rounded-lg shadow-lg">
+            <h1 class="text-4xl font-bold mb-4">Welcome, {{ user.username }}!</h1>
+            <p class="text-lg mb-4">Empowering you with knowledge and care.</p>
+            <form action="{{ url_for('predict') }}" method="POST">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">
+                    Health Checkup
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-12 px-4">
+
+        <!-- Health Information Section -->
+        <section id="predict" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 section-title">Health Information</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="profile-item">
+                    <h3 class="font-bold mb-2 text-xl">Your Profile</h3>
+                    <p><strong>Name:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Age:</strong> {{ health_info.profile.age }}</p>
+                    <p><strong>Gender:</strong> {{ health_info.profile.gender }}</p>
+                    <p><strong>Medical Conditions:</strong> {{ health_info.profile.conditions }}</p>
+                </div>
+                <a href="{{ url_for('common_diseases') }}" class="profile-item block hover:bg-red-300 transition duration-300">
+                    <h3 class="font-bold mb-2 text-xl">Common Diseases</h3>
+                    <p class="text-sm">Learn about symptoms, causes, and treatments.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Emergency Information Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 section-title">Emergency Information</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <a href="{{ url_for('emergency_contacts') }}" class="emergency-item block hover:bg-red-300 transition duration-300">
+                    <h3 class="font-bold mb-2 text-xl">Emergency Contacts</h3>
+                    <p class="text-sm">Find local emergency contact numbers.</p>
+                </a>
+                <a href="{{ url_for('first_aid_tips') }}" class="emergency-item block hover:bg-red-300 transition duration-300">
+                    <h3 class="font-bold mb-2 text-xl">First Aid Tips</h3>
+                    <p class="text-sm">Basic first aid instructions for emergencies.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 section-title">About Us</h2>
+            <div class="section-content about-item">
+                <p class="text-lg leading-relaxed">We are dedicated to providing the best health information and support through our innovative chatbot. Our goal is to empower users with reliable health insights and assist them in managing their well-being effectively. Our team of experts is committed to ensuring that you receive accurate and timely health information.</p>
+                <p class="text-lg leading-relaxed mt-4">We are <strong>Dhanush M</strong> and <strong>Eshwar K,</strong> the creators of this 6th-semester mini project during our 6th semester at RNSIT. This project reflects our commitment to leveraging technology to improve health management and provide valuable resources to users.</p>
+                <p class="text-lg leading-relaxed mt-4">Throughout the development process, we focused on creating a user-friendly interface and incorporating features that address common health concerns. Our chatbot aims to bridge the gap between users and essential health information, making it accessible at your fingertips.</p>
+                <p class="text-lg leading-relaxed mt-4">We hope this project will be a valuable tool for individuals seeking reliable health advice and support. Thank you for exploring our work, and we look forward to continually improving and expanding our offerings.</p>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 section-title">Our Services</h2>
+            <div class="section-content">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="service-item">
+                        <h3 class="text-xl font-semibold mb-2">Personalized Health Assessment</h3>
+                        <p>Receive a tailored health assessment based on your personal data and health metrics. Understand your current health status with detailed insights and recommendations.</p>
+                    </div>
+                    <div class="service-item">
+                        <h3 class="text-xl font-semibold mb-2">Disease Prediction and Insights</h3>
+                        <p>Get predictions about potential health issues based on your profile. Learn about symptoms, causes, and treatment options to stay informed and proactive about your health.</p>
+                    </div>
+                    <div class="service-item">
+                        <h3 class="text-xl font-semibold mb-2">Emergency Contact Information</h3>
+                        <p>Access crucial emergency contact details for immediate assistance during health crises.</p>
+                    </div>
+                    <div class="service-item">
+                        <h3 class="text-xl font-semibold mb-2">First Aid Tips and Guides</h3>
+                        <p>Learn essential first aid techniques and guidelines to handle common emergencies effectively.</p>
+                    </div>
+                    <div class="service-item">
+                        <h3 class="text-xl font-semibold mb-2">Symptom Checker</h3>
+                        <p>Evaluate your symptoms and get recommendations on potential causes and appropriate actions to take based on your symptoms.</p>
+                    </div>
+                    <div class="service-item">
+                        <h3 class="text-xl font-semibold mb-2">Health Risk Assessment</h3>
+                        <p>Assess potential health risks based on your lifestyle, habits, and medical history. Receive insights on how to reduce your risk of developing specific conditions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 section-title">Contact Us</h2>
+            <div class="section-content">
+                <p class="text-lg mb-4" style="font-size: 1.7rem;">For any inquiries or support, please reach out to us:</p>
+                <div class="contact-item" style="font-size: 1.5rem;">
+                    <strong>Email:</strong> <a href="mailto:support@healthchatbot.com" class="text-blue-600 hover:underline">support@healthchatbot.com</a>
+                </div>
+                <div class="contact-item" style="font-size: 1.5rem;">
+                    <strong>Phone:</strong> +123 456 7890
+                </div>
+                <div class="contact-item" style="font-size: 1.5rem;">
+                    <strong>Address:</strong> 123 Health St, Wellness City, HC 12345
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-sm text-gray-600 mt-12 no-copy">
+            <p>&copy; 2024 Health Chatbot. All rights reserved.</p>
+            <br>
+            <p>Designed with  Dhanush M and Eshwar K</p>
+        </footer>
+        <br>
+
+        <marquee behavior="scroll" direction="left" style="font-size: 1.4rem; color: red;">This is a demo website for educational purposes only. Do not use real personal information.</marquee>
+
+    </div>
+        <!-- JavaScript for toggling the menu -->
+        <script>
+            document.getElementById('menu-btn').addEventListener('click', function () {
+                const menu = document.getElementById('menu');
+                menu.classList.toggle('hidden');
+            });
+        </script>
+
+</body>
+
+</html>
